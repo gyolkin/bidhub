@@ -1,0 +1,30 @@
+target-version = 'py310'
+
+line-length = 120
+src = ['src']
+include = ['src/**.py', 'tests/**.py']
+
+[lint]
+extend-select = [
+    'I',        # https://docs.astral.sh/ruff/rules/#isort-i
+    'N',        # https://docs.astral.sh/ruff/settings/#pep8-naming
+    'EM',       # https://docs.astral.sh/ruff/settings/#flake8-errmsg
+    'ISC',      # https://docs.astral.sh/ruff/settings/#flake8-implicit-str-concat
+    'TID',      # https://docs.astral.sh/ruff/rules/#flake8-tidy-imports-tid
+]
+select = [
+    'F401',     # unused-import
+    'F406',     # undefined-local-with-nested-import-star-usage
+    'EM102',    # f-string-in-exception
+    'INP001',   # implicit-namespace-package
+    'DTZ003',   # call-datetime-utcnow
+]
+ignore = [
+    # 'I001',
+    'ISC001',
+]
+dummy-variable-rgx = '^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$'
+
+[format]
+quote-style = 'single'
+line-ending = 'auto'

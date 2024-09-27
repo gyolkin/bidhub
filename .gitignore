@@ -1,0 +1,25 @@
+# ide
+.vscode
+.idea
+.DS_Store
+
+# backend
+*.pyc
+*.so
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+poetry.lock
+
+# frontend
+node_modules
+dist
+dist-ssr
+*.local
+
+# other
+.env
+logs
+*.log
+*.psd
+*.db

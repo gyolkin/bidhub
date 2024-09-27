@@ -1,0 +1,14 @@
+__pycache__/
+.git/
+.gitignore
+.editorconfig
+.env.example
+.pre-commit-config.yaml
+.env
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+tests/
+docker-compose.yaml
+readme.md
