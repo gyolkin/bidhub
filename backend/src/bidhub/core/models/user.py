@@ -14,3 +14,6 @@ class User:
     password: str
     is_admin: bool
     created_at: datetime
+
+    def set_password(self, hashed_password: str) -> None:
+        self.password = hashed_password
