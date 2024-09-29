@@ -32,8 +32,7 @@ class FinishAuction:
         highest_bid = await self.bid_gateway.get_highest_bid_by_auction(current_auction.id)
         if highest_bid is None:
             await self.notification_service.notify_auction_finished_no_bids(
-                owner=auction_owner,
-                auction=current_auction
+                owner=auction_owner, auction=current_auction
             )
         else:
             winner = await self.user_gateway.get_user_by_id(highest_bid.user_id)

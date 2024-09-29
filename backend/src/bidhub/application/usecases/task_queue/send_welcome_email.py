@@ -14,7 +14,7 @@ class SendWelcomeEmail:
         await self.send_email(
             email=message.receiver,
             subject='Welcome to BidHub!',
-             message=(
+            message=(
                 f'Dear {message.receiver},\n\n'
                 'Welcome to BidHub! We are excited to have you with us and look forward to '
                 'helping you explore everything we have to offer.\n\n'

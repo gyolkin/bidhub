@@ -9,7 +9,7 @@ from .common import PaginationFilter
 
 @dataclass(frozen=True, slots=True)
 class ListAuctionsFilter(PaginationFilter):
-    user_id: UserId
+    user_id: UserId | None = None
     is_active: bool | None = None
 
 
@@ -18,7 +18,7 @@ class CreateAuctionInput:
     title: str
     description: str
     start_price: int
-    days_to_finish: int
+    mins_to_finish: int
 
 
 @dataclass(frozen=True, slots=True)

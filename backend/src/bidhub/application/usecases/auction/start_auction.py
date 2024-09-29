@@ -30,16 +30,16 @@ class StartAuction:
             title=request.title,
             description=request.description,
             start_price=request.start_price,
-            days_to_finish=request.days_to_finish,
+            mins_to_finish=request.mins_to_finish,
         )
         await self.auction_gateway.save_auction(new_auction)
         await self.uow.commit()
-        await self._schedule_finish_auction_task(new_auction.id, request.days_to_finish)
+        await self._schedule_finish_auction_task(new_auction.id, request.mins_to_finish)
         return AuctionIdOutput(new_auction.id)
 
-    async def _schedule_finish_auction_task(self, auction_id: AuctionId, days_to_finish: int):
+    async def _schedule_finish_auction_task(self, auction_id: AuctionId, mins_to_finish: int):
         message = ScheduleFinishAuctionInput(
             auction_id=auction_id,
-            days_to_finish=days_to_finish,
+            mins_to_finish=mins_to_finish,
         )
         await self.finish_auction_task(message=message)

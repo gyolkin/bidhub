@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+  rabbit:
+    container_name: rabbit-mq
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: rabbit-stage
+    hostname: ${RABBIT_HOST}
+    restart: always
+    ports:
+      - "${RABBIT_PORT}:${RABBIT_PORT}"
+      - "${RABBIT_UI_PORT}:${RABBIT_UI_PORT}"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    container_name: redis
+    image: redis:7.4-alpine
+    hostname: ${REDIS_HOST}
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis_data:/data
+
+  db:
+    container_name: postgres-database
+    image: postgres:14-alpine
+    hostname: ${DB_HOST}
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  backend:
+    container_name: web-api
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: web-api-stage
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - rabbit
+      - redis
+    env_file: '.env'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 2m
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  worker:
+    container_name: worker
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: worker-stage
+    depends_on:
+      - db
+      - rabbit
+      - redis
+    env_file: '.env'
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:

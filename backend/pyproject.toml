@@ -8,6 +8,17 @@ readme = "readme.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 
+fastapi = "^0.110.0"
+uvicorn = "^0.29.0"
+sqlalchemy = "^2.0.29"
+alembic = "^1.13.1"
+asyncpg = "^0.29.0"
+dishka = "^1.1.1"
+bcrypt = "^4.2.0"
+pyjwt = "^2.9.0"
+faststream = {extras = ["rabbit"], version = "^0.5.22"}
+redis = "^5.0.8"
+
 [tool.poetry.group.test.dependencies]
 httpx = "^0.27.0"
 pytest = "^8.2.0"

@@ -11,10 +11,10 @@ class AuctionService:
         title: str,
         description: str,
         start_price: int,
-        days_to_finish: int,
+        mins_to_finish: int,
     ) -> Auction:
         created_at = datetime.now()
-        ending_at = created_at + timedelta(days=days_to_finish)
+        ending_at = created_at + timedelta(minutes=mins_to_finish)
         return Auction(
             user_id=user_id,
             title=title,

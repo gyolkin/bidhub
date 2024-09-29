@@ -1,0 +1,2 @@
+JWT_COOKIE_LIFETIME = 60 * 60 * 24
+JWT_COOKIE_NAME = 'auth_token'
