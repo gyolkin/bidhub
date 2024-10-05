@@ -1,17 +1,26 @@
 from abc import ABC, abstractmethod
 
-from bidhub.core.models import User, Auction, Bid
+from bidhub.application.dto.user import UserResponse
 
 
 class INotificationService(ABC):
     @abstractmethod
-    async def notify_auction_finished_no_bids(self, owner: User, auction: Auction) -> None:
+    async def notify_auction_finished_no_bids(
+        self,
+        owner_email: str,
+        auction_title: str,
+    ) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    async def notify_auction_finished_with_winner(self, owner: User, auction: Auction, highest_bid: Bid) -> None:
+    async def notify_auction_finished_with_winner(
+        self,
+        owner_email: str,
+        auction_title: str,
+        highest_bid_amount: int,
+    ) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    async def notify_auction_winner(self, winner: User, auction: Auction) -> None:
+    async def notify_auction_winner(self, winner_email: str, auction_title: str) -> None:
         raise NotImplementedError

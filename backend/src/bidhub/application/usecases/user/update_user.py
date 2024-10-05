@@ -1,4 +1,5 @@
-from bidhub.application.dto.user import UpdateUserInput, UserIdOutput
+from bidhub.application.dto.user import UpdateUserRequest
+from bidhub.application.dto.common import IdResponse
 from bidhub.application.protocols.security import IPasswordManager, IUserIdentity
 from bidhub.application.protocols.persistence import IUnitOfWork, IUserGateway
 from bidhub.application.exceptions import NotFoundError
@@ -27,8 +28,8 @@ class UpdateUser:
     async def __call__(
         self,
         user_id: UserId,
-        request: UpdateUserInput,
-    ) -> UserIdOutput:
+        request: UpdateUserRequest,
+    ) -> IdResponse[UserId]:
         current_user = await self.user_identity.get_current_user()
         user = await self.user_gateway.get_user_by_id(user_id)
         if not user:
@@ -40,4 +41,4 @@ class UpdateUser:
             user.set_password(hashed_password)
         await self.user_gateway.update_user(user)
         await self.uow.commit()
-        return UserIdOutput(user.id)
+        return IdResponse(user.id)

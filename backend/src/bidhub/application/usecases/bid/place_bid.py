@@ -1,9 +1,10 @@
 from bidhub.application.exceptions import NotFoundError
-from bidhub.application.dto.bid import CreateBidInput, BidIdOutput
+from bidhub.application.dto.bid import CreateBidRequest
+from bidhub.application.dto.common import IdResponse
 from bidhub.application.protocols.security import IUserIdentity
 from bidhub.application.protocols.persistence import IBidGateway, IAuctionGateway, IUnitOfWork
 from bidhub.core.services import BidService
-from bidhub.core.models import AuctionId
+from bidhub.core.models import AuctionId, BidId
 
 
 AUCTION_NOT_FOUND = 'Auction does not exist.'
@@ -25,7 +26,7 @@ class PlaceBid:
         self.auction_gateway = auction_gateway
         self.uow = uow
 
-    async def __call__(self, auction_id: AuctionId, request: CreateBidInput) -> BidIdOutput:
+    async def __call__(self, auction_id: AuctionId, request: CreateBidRequest) -> IdResponse[BidId]:
         current_user = await self.user_identity.get_current_user()
         auction = await self.auction_gateway.get_auction_by_id(auction_id)
         if not auction:
@@ -37,4 +38,4 @@ class PlaceBid:
         )
         await self.bid_gateway.save_bid(new_bid)
         await self.uow.commit()
-        return BidIdOutput(id=new_bid.id)
+        return IdResponse(new_bid.id)

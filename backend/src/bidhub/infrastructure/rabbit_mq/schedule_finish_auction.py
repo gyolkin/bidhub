@@ -6,10 +6,10 @@ from aio_pika.abc import AbstractChannel as IRabbitChannel
 
 from bidhub.infrastructure.json_encoder import UUIDEncoder
 from bidhub.application.protocols.task_queue import IScheduleFinishAuctionTask
-from bidhub.application.dto.task_queue import ScheduleFinishAuctionInput
+from bidhub.application.dto.task_queue import ScheduleFinishAuctionRequest
 
 
-MINUTE_IN_MILLISECONDS = 60 * 1000
+MINUTE_IN_MILLISECONDS = 60 * 1_000
 
 
 class RabbitScheduleFinishAuctionTask(IScheduleFinishAuctionTask):
@@ -19,7 +19,7 @@ class RabbitScheduleFinishAuctionTask(IScheduleFinishAuctionTask):
     async def __call__(
         self,
         *,
-        message: ScheduleFinishAuctionInput,
+        message: ScheduleFinishAuctionRequest,
     ) -> None:
         exchange = await self.rabbit_channel.get_exchange('delayed_exchange')
         rabbit_message = RabbitMessage(

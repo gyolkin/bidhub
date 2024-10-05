@@ -5,7 +5,7 @@ from aio_pika import Message as RabbitMessage, DeliveryMode
 from aio_pika.abc import AbstractChannel as IRabbitChannel
 
 from bidhub.application.protocols.task_queue import ISendEmailTask
-from bidhub.application.dto.task_queue import SendWelcomeEmailInput
+from bidhub.application.dto.task_queue import SendWelcomeEmailRequest
 
 
 class RabbitSendEmailTask(ISendEmailTask):
@@ -15,7 +15,7 @@ class RabbitSendEmailTask(ISendEmailTask):
     async def __call__(
         self,
         *,
-        message: SendWelcomeEmailInput,
+        message: SendWelcomeEmailRequest,
     ) -> None:
         rabbit_message = RabbitMessage(
             body=json.dumps(asdict(message)).encode(),

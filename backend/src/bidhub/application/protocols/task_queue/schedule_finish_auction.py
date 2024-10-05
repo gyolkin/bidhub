@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from bidhub.application.dto.task_queue import ScheduleFinishAuctionInput
+from bidhub.application.dto.task_queue import ScheduleFinishAuctionRequest
 
 
 class IScheduleFinishAuctionTask(ABC):
@@ -8,6 +8,6 @@ class IScheduleFinishAuctionTask(ABC):
     async def __call__(
         self,
         *,
-        message: ScheduleFinishAuctionInput,
+        message: ScheduleFinishAuctionRequest,
     ) -> None:
         raise NotImplementedError

@@ -4,8 +4,10 @@ from dishka.integrations.fastapi import FromDishka, inject
 
 from bidhub.presentation.web_api.constants import JWT_COOKIE_NAME, JWT_COOKIE_LIFETIME
 from bidhub.infrastructure.auth.jwt import JwtProcessor
-from bidhub.application.dto.user import AuthenticateUserInput, UserIdOutput
+from bidhub.application.dto.user import AuthenticateUserRequest
+from bidhub.application.dto.common import IdResponse
 from bidhub.application.usecases.user import AuthenticateUser
+from bidhub.core.models import UserId
 
 
 @inject
@@ -13,9 +15,9 @@ async def login(
     *,
     usecase: FromDishka[AuthenticateUser],
     jwt_processor: FromDishka[JwtProcessor],
-    login_data: AuthenticateUserInput,
+    login_data: AuthenticateUserRequest,
     response: Response,
-) -> UserIdOutput:
+) -> IdResponse[UserId]:
     """
     Logins user, sets JWT cookie, returns user data.\n\n
 

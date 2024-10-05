@@ -3,7 +3,6 @@ name = "bidhub"
 version = "0.1.0"
 description = "BidHub Backend MVP"
 authors = ["Grigory Yolkin <gyolkin380@yandex.ru>"]
-readme = "readme.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"

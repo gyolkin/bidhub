@@ -10,7 +10,7 @@ from bidhub.application.usecases.user import (
 )
 from bidhub.application.usecases.task_queue import (
     SendWelcomeEmail,
-    FinishAuction,
+    ScheduledAuctionFinish,
 )
 from bidhub.application.usecases.bid import (
     PlaceBid,
@@ -27,7 +27,14 @@ from bidhub.application.protocols.task_queue import (
     IScheduleFinishAuctionTask,
 )
 from bidhub.application.protocols.sending import IEmailSender, INotificationService
-from bidhub.application.protocols.persistence import IUnitOfWork, IAuctionGateway, IBidGateway, IUserGateway
+from bidhub.application.protocols.persistence import (
+    IUnitOfWork,
+    IAuctionGateway,
+    IBidGateway,
+    IUserGateway,
+    IAuctionTable,
+    IBidTable,
+)
 from bidhub.application.protocols.security import IUserIdentity, IPasswordManager
 from bidhub.core.services import UserService, AuctionService, BidService, AccessService
 
@@ -120,24 +127,18 @@ class UseCasesProvider(Provider):
     @provide
     def get_auction(
         self,
-        user_gateway: IUserGateway,
-        auction_gateway: IAuctionGateway,
+        auction_table: IAuctionTable,
     ) -> GetAuction:
         return GetAuction(
-            user_gateway=user_gateway,
-            auction_gateway=auction_gateway,
+            auction_table=auction_table,
         )
 
     @provide
     def list_auctions(
         self,
-        user_gateway: IUserGateway,
-        auction_gateway: IAuctionGateway,
+        auction_table: IAuctionTable,
     ) -> ListAuctions:
-        return ListAuctions(
-            user_gateway=user_gateway,
-            auction_gateway=auction_gateway,
-        )
+        return ListAuctions(auction_table=auction_table)
 
     @provide
     def place_bid(
@@ -159,17 +160,8 @@ class UseCasesProvider(Provider):
         return require
 
     @provide
-    def list_bids(
-        self,
-        user_gateway: IUserGateway,
-        auction_gateway: IAuctionGateway,
-        bid_gateway: IBidGateway,
-    ) -> ListBids:
-        return ListBids(
-            user_gateway=user_gateway,
-            auction_gateway=auction_gateway,
-            bid_gateway=bid_gateway,
-        )
+    def list_bids(self, bid_table: IBidTable) -> ListBids:
+        return ListBids(bid_table=bid_table)
 
     @provide
     def send_welcome_email(
@@ -182,15 +174,13 @@ class UseCasesProvider(Provider):
     def finish_auction(
         self,
         auction_gateway: IAuctionGateway,
-        bid_gateway: IBidGateway,
-        user_gateway: IUserGateway,
+        auction_table: IAuctionTable,
         uow: IUnitOfWork,
         notification_service: INotificationService,
-    ) -> FinishAuction:
-        return FinishAuction(
+    ) -> ScheduledAuctionFinish:
+        return ScheduledAuctionFinish(
             auction_gateway=auction_gateway,
-            bid_gateway=bid_gateway,
-            user_gateway=user_gateway,
+            auction_table=auction_table,
             uow=uow,
             notification_service=notification_service,
         )

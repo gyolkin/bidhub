@@ -1,7 +1,7 @@
 __all__ = (
-    'FinishAuction',
+    'ScheduledAuctionFinish',
     'SendWelcomeEmail',
 )
 
-from .finish_auction import FinishAuction
+from .scheduled_auction_finish import ScheduledAuctionFinish
 from .send_welcome_email import SendWelcomeEmail

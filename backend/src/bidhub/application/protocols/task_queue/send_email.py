@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from bidhub.application.dto.task_queue import SendWelcomeEmailInput
+from bidhub.application.dto.task_queue import SendWelcomeEmailRequest
 
 
 class ISendEmailTask(ABC):
@@ -8,6 +8,6 @@ class ISendEmailTask(ABC):
     async def __call__(
         self,
         *,
-        message: SendWelcomeEmailInput,
+        message: SendWelcomeEmailRequest,
     ) -> None:
         raise NotImplementedError

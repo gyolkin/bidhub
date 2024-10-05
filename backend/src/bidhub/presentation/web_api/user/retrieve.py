@@ -1,6 +1,6 @@
 from dishka.integrations.fastapi import FromDishka, inject
 
-from bidhub.application.dto.user import UserOutput
+from bidhub.application.dto.user import UserResponse
 from bidhub.application.usecases.user import GetUser
 from bidhub.core.models import UserId
 
@@ -10,7 +10,7 @@ async def get_user(
     *,
     user_id: UserId,
     usecase: FromDishka[GetUser],
-) -> UserOutput:
+) -> UserResponse:
     """
     Returns some user data.\n\n
 

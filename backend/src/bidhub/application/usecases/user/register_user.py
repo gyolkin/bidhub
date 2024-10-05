@@ -1,10 +1,12 @@
-from bidhub.application.dto.user import CreateUserInput, UserIdOutput
-from bidhub.application.dto.task_queue import SendWelcomeEmailInput
+from bidhub.application.dto.user import CreateUserRequest
+from bidhub.application.dto.common import IdResponse
+from bidhub.application.dto.task_queue import SendWelcomeEmailRequest
 from bidhub.application.protocols.persistence import IUnitOfWork, IUserGateway
 from bidhub.application.protocols.task_queue import ISendEmailTask
 from bidhub.application.protocols.security import IPasswordManager
 from bidhub.application.exceptions import AlreadyExistsError
 from bidhub.core.services import UserService
+from bidhub.core.models import UserId
 
 
 class RegisterUser:
@@ -23,7 +25,7 @@ class RegisterUser:
         self.password_manager = password_manager
         self.send_email_task = send_email_task
 
-    async def __call__(self, request: CreateUserInput) -> UserIdOutput:
+    async def __call__(self, request: CreateUserRequest) -> IdResponse[UserId]:
         user = await self.user_gateway.get_user_by_email(request.email)
         if user:
             raise AlreadyExistsError()
@@ -37,8 +39,8 @@ class RegisterUser:
         await self.user_gateway.save_user(new_user)
         await self.uow.commit()
         await self._send_welcome_email(new_user.email)
-        return UserIdOutput(new_user.id)
+        return IdResponse[UserId](new_user.id)
 
     async def _send_welcome_email(self, email: str):
-        message = SendWelcomeEmailInput(receiver=email)
+        message = SendWelcomeEmailRequest(receiver=email)
         await self.send_email_task(message=message)

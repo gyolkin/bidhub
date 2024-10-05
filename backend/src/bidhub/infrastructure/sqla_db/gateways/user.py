@@ -1,5 +1,3 @@
-from typing import Iterable, Sequence
-
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -20,12 +18,6 @@ class SqlaUserGateway(IUserGateway):
         result = await self.session.execute(query)
         user = result.scalars().first()
         return user
-
-    async def list_users_by_ids(self, user_ids: Iterable[UserId]) -> Sequence[User]:
-        query = sa.select(User).where(User.id.in_(user_ids))
-        result = await self.session.execute(query)
-        users = result.scalars().all()
-        return users
 
     async def save_user(self, user: User) -> None:
         self.session.add(user)

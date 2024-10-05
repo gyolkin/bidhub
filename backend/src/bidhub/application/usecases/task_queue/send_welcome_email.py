@@ -1,4 +1,4 @@
-from bidhub.application.dto.task_queue import SendWelcomeEmailInput
+from bidhub.application.dto.task_queue import SendWelcomeEmailRequest
 from bidhub.application.protocols.sending import IEmailSender
 
 
@@ -10,7 +10,7 @@ class SendWelcomeEmail:
     ):
         self.send_email = email_sender
 
-    async def __call__(self, message: SendWelcomeEmailInput) -> None:
+    async def __call__(self, message: SendWelcomeEmailRequest) -> None:
         await self.send_email(
             email=message.receiver,
             subject='Welcome to BidHub!',

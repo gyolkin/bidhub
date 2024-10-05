@@ -4,11 +4,11 @@ from bidhub.core.models import AuctionId
 
 
 @dataclass(frozen=True, slots=True)
-class ScheduleFinishAuctionInput:
+class ScheduleFinishAuctionRequest:
     auction_id: AuctionId
     mins_to_finish: int
 
 
 @dataclass(frozen=True, slots=True)
-class SendWelcomeEmailInput:
+class SendWelcomeEmailRequest:
     receiver: str

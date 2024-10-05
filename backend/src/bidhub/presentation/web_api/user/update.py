@@ -1,7 +1,8 @@
 from dishka.integrations.fastapi import FromDishka, inject
 
 from bidhub.presentation.auth_guard import WithAuth
-from bidhub.application.dto.user import UserIdOutput, UpdateUserInput
+from bidhub.application.dto.user import UpdateUserRequest
+from bidhub.application.dto.common import IdResponse
 from bidhub.application.usecases.user import UpdateUser
 from bidhub.application.protocols.security import IUserIdentity
 from bidhub.core.models import UserId
@@ -11,10 +12,10 @@ from bidhub.core.models import UserId
 async def update_user(
     *,
     user_id: UserId,
-    user_data: UpdateUserInput,
+    user_data: UpdateUserRequest,
     identity: FromDishka[IUserIdentity],
     initialize_usecase: FromDishka[WithAuth[UpdateUser]],
-) -> UserIdOutput:
+) -> IdResponse[UserId]:
     """
     Returns some user data.\n\n
 

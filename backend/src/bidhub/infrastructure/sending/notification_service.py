@@ -1,43 +1,51 @@
 from bidhub.application.protocols.sending import INotificationService, IEmailSender
-from bidhub.core.models import User, Auction, Bid
 
 
 class NotificationService(INotificationService):
     def __init__(self, email_sender: IEmailSender):
         self.email_sender = email_sender
 
-    async def notify_auction_finished_no_bids(self, owner: User, auction: Auction) -> None:
+    async def notify_auction_finished_no_bids(
+        self,
+        owner_email: str,
+        auction_title: str,
+    ) -> None:
         await self.email_sender(
-            email=owner.email,
+            email=owner_email,
             subject='Your Auction Has Ended',
             message=(
-                f'Dear {owner.email},\n\n'
-                f'Unfortunately, your auction for {auction.title} has ended without any bids.\n\n'
+                f'Dear {owner_email},\n\n'
+                f'Unfortunately, your auction for {auction_title} has ended without any bids.\n\n'
                 'Best regards,\n'
                 'The BidHub Team'
             ),
         )
 
-    async def notify_auction_finished_with_winner(self, owner: User, auction: Auction, highest_bid: Bid) -> None:
+    async def notify_auction_finished_with_winner(
+        self,
+        owner_email: str,
+        auction_title: str,
+        highest_bid_amount: int,
+    ) -> None:
         await self.email_sender(
-            email=owner.email,
+            email=owner_email,
             subject='Congratulations, Your Auction Has Successfully Ended!',
             message=(
-                f'Dear {owner.email},\n\n'
-                f'Congratulations! Your auction for {auction.title} has successfully ended '
-                f'with a final price of ${highest_bid.amount}.\n\n'
+                f'Dear {owner_email},\n\n'
+                f'Congratulations! Your auction for {auction_title} has successfully ended '
+                f'with a final price of ${highest_bid_amount}.\n\n'
                 'Best regards,\n'
                 'The BidHub Team'
             ),
         )
 
-    async def notify_auction_winner(self, winner: User, auction: Auction) -> None:
+    async def notify_auction_winner(self, winner_email: str, auction_title: str) -> None:
         await self.email_sender(
-            email=winner.email,
-            subject=f'Congratulations on Winning the {auction.title} Auction!',
+            email=winner_email,
+            subject=f'Congratulations on Winning the {auction_title} Auction!',
             message=(
-                f'Dear {winner.email},\n\n'
-                f'Congratulations! You are the proud winner of the {auction.title}. Thank you '
+                f'Dear {winner_email},\n\n'
+                f'Congratulations! You are the proud winner of the {auction_title}. Thank you '
                 'for participating, and we hope you enjoy your new purchase!\n\n'
                 'Best regards,\n'
                 'The BidHub Team'
