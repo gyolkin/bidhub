@@ -75,6 +75,20 @@ services:
       - redis
     env_file: '.env'
 
+  frontend:
+    container_name: web-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: nginx-stage
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: always
+
 volumes:
   postgres_data:
   rabbitmq_data:

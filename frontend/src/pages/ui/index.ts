@@ -1,0 +1,5 @@
+export { AuctionsPage } from './auctions'
+export { HomePage } from './home'
+export { LoginPage } from './login'
+export { ProfilePage } from './profile'
+export { RegisterPage } from './register'

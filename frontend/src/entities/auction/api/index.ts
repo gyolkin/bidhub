@@ -1,0 +1,1 @@
+export { auctionsApi } from './handler'
