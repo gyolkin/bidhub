@@ -4,8 +4,8 @@ import { z } from 'zod'
 
 import { auctionsApi } from '@/entities/auction'
 import { getErrorMessage } from '@/shared/api'
+import { AlertDestructive, PriceInput } from '@/shared/kit'
 import {
-  AlertDestructive,
   Button,
   Form,
   FormContainer,
@@ -50,7 +50,10 @@ export const AddAuctionForm = () => {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Marvel..." {...field} />
+                <Input
+                  placeholder="2 Travel egg cups, silver, Russia"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -63,7 +66,10 @@ export const AddAuctionForm = () => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="Marvel.." {...field} />
+                <Input
+                  placeholder="Height 6 cm both. Obscure stamps."
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,12 +82,7 @@ export const AddAuctionForm = () => {
             <FormItem>
               <FormLabel>Start Price</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="100"
-                  {...field}
-                  type="number"
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                />
+                <PriceInput placeholder="300" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -45,7 +45,7 @@ interface CreateAuctionRequest {
 interface ListAuctionsFilter {
   user_id?: UserId
   title?: string
-  is_active?: boolean
+  is_active?: string
 }
 
 export type {

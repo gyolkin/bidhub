@@ -1,3 +1,7 @@
-import type { UUID } from 'crypto'
+export type BidId = string
 
-export type BidId = UUID
+export interface Bid {
+  id: BidId
+  amount: number
+  created_at: string
+}

@@ -1,0 +1,1 @@
+export { mapBid } from './mapper'

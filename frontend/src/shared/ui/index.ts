@@ -1,4 +1,5 @@
-export { Alert, AlertDescription, AlertDestructive, AlertTitle } from './alert'
+export { Alert, AlertDescription, AlertTitle } from './alert'
+export { Badge } from './badge'
 export { Button } from './button'
 export {
   Card,
@@ -47,9 +48,19 @@ export {
   FormLabel,
   FormMessage,
 } from './form'
+export { HoverCard, HoverCardContent, HoverCardTrigger } from './hover-card'
 export { Input } from './input'
 export { Label } from './label'
 export { Layout } from './layout'
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './pagination'
 export {
   Select,
   SelectContent,
@@ -63,6 +74,17 @@ export {
   SelectValue,
 } from './select'
 export { Skeleton } from './skeleton'
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './table'
+export { Toaster } from './toaster'
 export {
   TypographyH1,
   TypographyH2,

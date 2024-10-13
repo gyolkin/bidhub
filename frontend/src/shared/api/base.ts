@@ -6,5 +6,5 @@ export const baseApi = createApi({
     baseUrl: 'http://localhost/api/v1',
   }),
   endpoints: () => ({}),
-  tagTypes: ['USERS', 'CURRENT_USER'],
+  tagTypes: ['USERS', 'CURRENT_USER', 'AUCTIONS', 'BIDS'],
 })

@@ -1,6 +1,6 @@
 interface PaginationFilter {
-  per_page: number
-  page: number
+  per_page?: number
+  page?: number
 }
 
 interface PaginatedResponse<T> {

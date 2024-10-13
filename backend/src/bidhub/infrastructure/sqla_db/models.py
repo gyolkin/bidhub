@@ -27,7 +27,7 @@ users = Table(
     Column('email', String(255), unique=True, nullable=False),
     Column('password', String(255), nullable=False),
     Column('is_admin', Boolean, nullable=False),
-    Column('created_at', DateTime, nullable=False),
+    Column('created_at', DateTime(timezone=True), nullable=False),
 )
 
 auctions = Table(
@@ -39,8 +39,8 @@ auctions = Table(
     Column('description', String(255), nullable=True),
     Column('start_price', Integer, nullable=False),
     Column('is_active', Boolean, default=True, nullable=False),
-    Column('created_at', DateTime, nullable=False),
-    Column('ending_at', DateTime, nullable=False),
+    Column('created_at', DateTime(timezone=True), nullable=False),
+    Column('ending_at', DateTime(timezone=True), nullable=False),
 )
 
 bids = Table(
@@ -50,7 +50,7 @@ bids = Table(
     Column('auction_id', UUID, ForeignKey('auctions.id'), nullable=False),
     Column('user_id', UUID, ForeignKey('users.id'), nullable=False),
     Column('amount', Integer, nullable=False),
-    Column('created_at', DateTime, nullable=False),
+    Column('created_at', DateTime(timezone=True), nullable=False),
 )
 
 mapper_registry.map_imperatively(User, users)

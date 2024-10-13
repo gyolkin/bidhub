@@ -19,9 +19,14 @@ interface AuctionCardProps {
 export const AuctionCard = ({ auction }: AuctionCardProps) => {
   return (
     <Link to={`/auction/${auction.id}`} className="block">
-      <Card className={cn(!auction.is_active && 'opacity-50')}>
+      <Card
+        className={cn(
+          'flex flex-col min-h-56 justify-between transition-transform duration-300 hover:scale-105',
+          !auction.is_active && 'opacity-50 hover:opacity-100'
+        )}
+      >
         <CardHeader>
-          <TypographyH3>{auction.title}</TypographyH3>
+          <TypographyH3 className="title-clamp">{auction.title}</TypographyH3>
           <TypographyP muted>
             {calculateEndingTime(auction.ending_at)}
           </TypographyP>
@@ -30,7 +35,9 @@ export const AuctionCard = ({ auction }: AuctionCardProps) => {
           <TypographyP>
             {pluralize(auction.total_bids, 'bid', 'bids')}
           </TypographyP>
-          <TypographyH3>${auction.current_price}</TypographyH3>
+          <TypographyH3 className="text-green-600">
+            ${auction.current_price}
+          </TypographyH3>
         </CardContent>
       </Card>
     </Link>

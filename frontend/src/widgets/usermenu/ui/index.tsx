@@ -1,7 +1,7 @@
 import { ChevronDown, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-import { DropdownLogoutButton } from '@/features/user/logout'
+import { LogoutButton } from '@/features/user/logout'
 import { usersApi } from '@/entities/user'
 import {
   Button,
@@ -32,12 +32,12 @@ const UserMenu = () => {
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link to="/profile">
+            <Link to={`/profile/${user.id}`}>
               <User className="mr-2 h-4 w-4" />
               <span>My Profile</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownLogoutButton />
+          <LogoutButton display="dropdown" />
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

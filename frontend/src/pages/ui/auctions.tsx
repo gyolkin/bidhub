@@ -1,42 +1,57 @@
-import { useSearchParams } from 'react-router-dom'
-
-import { AuctionSearchForm } from '@/features/auction/search'
+import { AuctionList } from '@/widgets/auction-list'
 import {
-  AuctionCard,
-  AuctionCardSkeleton,
+  auctionQuerySchema,
+  AuctionSearchForm,
+  AuctionSearchUserContext,
+} from '@/features/auction/search'
+import {
+  AUCTIONS_PER_PAGE,
   auctionsApi,
-  mapShortAuction,
-  parseAuctionQueryParams,
+  REFETCH_AUCTIONS_INTERVAL,
 } from '@/entities/auction'
-import { parsePaginationQueryParams } from '@/shared/lib'
+import { ControlledPagination } from '@/shared/kit'
+import { useQueryParams } from '@/shared/lib'
 
 const AuctionsPage = () => {
-  const [URLSearchParams] = useSearchParams()
-  const { data: auctions, isLoading } =
-    auctionsApi.endpoints.listAuctions.useQuery({
-      ...parseAuctionQueryParams(URLSearchParams),
-      ...parsePaginationQueryParams(URLSearchParams),
-    })
+  return (
+    <div className="pt-10 pb-2 space-y-4">
+      <FullAuctionsList />
+    </div>
+  )
+}
 
-  const renderAuctions = () => {
-    if (!auctions || isLoading) {
-      return Array.from({ length: 40 }).map((_, index) => (
-        <AuctionCardSkeleton key={index} />
-      ))
-    } else {
-      return auctions.items.map((auction) => (
-        <AuctionCard key={auction.id} auction={mapShortAuction(auction)} />
-      ))
+const FullAuctionsList = () => {
+  const { queryParams, setQueryParams } = useQueryParams(auctionQuerySchema)
+  const {
+    data: auctions,
+    isLoading: auctionsLoading,
+    isError: auctionsError,
+  } = auctionsApi.endpoints.listAuctions.useQuery(
+    { ...queryParams, per_page: AUCTIONS_PER_PAGE },
+    {
+      pollingInterval: REFETCH_AUCTIONS_INTERVAL,
     }
-  }
+  )
 
   return (
-    <div className="pt-10 space-y-4">
-      <AuctionSearchForm />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {renderAuctions()}
+    <>
+      <div className="flex flex-col space-y-2 md:flex-col-reverse">
+        <AuctionSearchForm />
+        <AuctionSearchUserContext />
       </div>
-    </div>
+      <AuctionList
+        auctions={auctions?.items}
+        showSkeleton={auctionsLoading}
+        showError={auctionsError}
+        loadedAuctions={AUCTIONS_PER_PAGE}
+        showAddButton
+      />
+      <ControlledPagination
+        count={auctions?.total_pages || 0}
+        page={queryParams.page}
+        onChange={(newPage) => setQueryParams({ page: newPage })}
+      />
+    </>
   )
 }
 

@@ -4,8 +4,8 @@ import { z } from 'zod'
 
 import { usersApi } from '@/entities/user'
 import { getErrorMessage } from '@/shared/api'
+import { AlertDestructive } from '@/shared/kit'
 import {
-  AlertDestructive,
   Button,
   Form,
   FormContainer,

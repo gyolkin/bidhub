@@ -1,6 +1,8 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { Toaster } from '@/shared/ui'
+
 type LayoutProps = {
   headerSlot?: React.ReactNode
 }
@@ -12,6 +14,7 @@ const Layout = ({ headerSlot }: LayoutProps) => {
       <div className="container">
         <Outlet />
       </div>
+      <Toaster />
     </div>
   )
 }

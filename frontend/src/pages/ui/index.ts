@@ -1,5 +1,7 @@
 export { AuctionsPage } from './auctions'
 export { HomePage } from './home'
 export { LoginPage } from './login'
+export { NotFoundPage } from './not-found'
 export { ProfilePage } from './profile'
 export { RegisterPage } from './register'
+export { SingleAuctionPage } from './single-auction'

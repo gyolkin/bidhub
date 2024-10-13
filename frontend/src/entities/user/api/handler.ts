@@ -1,5 +1,6 @@
 import { baseApi } from '@/shared/api'
 
+import type { UserId } from '../model'
 import type {
   UserIdResponse,
   UserLoginRequest,
@@ -19,6 +20,12 @@ const usersApi = baseApi.injectEndpoints({
       }),
       providesTags: ['CURRENT_USER'],
       keepUnusedDataFor: Infinity,
+    }),
+    getUser: build.query<UserResponse, { user_id: UserId }>({
+      query: ({ user_id }) => ({
+        url: `${USERS_ENDPOINT}/${user_id}`,
+        method: 'GET',
+      }),
     }),
     loginUser: build.mutation<UserIdResponse, UserLoginRequest>({
       query: (data) => ({

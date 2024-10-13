@@ -4,7 +4,6 @@ import type { ShortAuction } from '../model/types'
 export const mapShortAuction = (dto: ShortAuctionResponse): ShortAuction => {
   return {
     id: dto.id,
-    user_id: dto.user_id,
     title: dto.title,
     total_bids: dto.total_bids,
     current_price:

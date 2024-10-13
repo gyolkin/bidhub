@@ -4,8 +4,10 @@ import {
   AuctionsPage,
   HomePage,
   LoginPage,
+  NotFoundPage,
   ProfilePage,
   RegisterPage,
+  SingleAuctionPage,
 } from '@/pages/ui'
 
 import { baseLayout, emptyLayout } from './layouts/base'
@@ -14,26 +16,8 @@ import { ProtectedRoute, PublicRoute } from './route-wrappers'
 export const appRouter = () =>
   createBrowserRouter([
     {
-      element: baseLayout,
-      errorElement: <div>error</div>,
-      children: [
-        {
-          path: '/',
-          element: <HomePage />,
-        },
-        {
-          path: '/profile',
-          element: <ProtectedRoute element={<ProfilePage />} />,
-        },
-        {
-          path: '/auctions',
-          element: <AuctionsPage />,
-        },
-      ],
-    },
-    {
       element: emptyLayout,
-      errorElement: <div>error</div>,
+      errorElement: <NotFoundPage />,
       children: [
         {
           path: '/login',
@@ -42,6 +26,28 @@ export const appRouter = () =>
         {
           path: '/register',
           element: <PublicRoute element={<RegisterPage />} />,
+        },
+      ],
+    },
+    {
+      element: baseLayout,
+      errorElement: <NotFoundPage />,
+      children: [
+        {
+          path: '/',
+          element: <HomePage />,
+        },
+        {
+          path: '/profile/:user_id',
+          element: <ProtectedRoute element={<ProfilePage />} />,
+        },
+        {
+          path: '/auctions',
+          element: <AuctionsPage />,
+        },
+        {
+          path: '/auction/:auction_id',
+          element: <SingleAuctionPage />,
         },
       ],
     },

@@ -1,5 +1,4 @@
 import { cva, type VariantProps } from 'class-variance-authority'
-import { AlertCircle } from 'lucide-react'
 import React from 'react'
 
 import { cn } from '../lib'
@@ -57,24 +56,4 @@ const AlertDescription = React.forwardRef<
 ))
 AlertDescription.displayName = 'AlertDescription'
 
-interface AlertDestructiveProps extends React.HTMLAttributes<HTMLDivElement> {
-  title?: string
-}
-
-const AlertDestructive = React.forwardRef<
-  HTMLDivElement,
-  AlertDestructiveProps
->(({ title, children, ...props }, ref) => (
-  <Alert variant="destructive" ref={ref} {...props}>
-    {title && (
-      <>
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>{title}</AlertTitle>
-      </>
-    )}
-    <AlertDescription>{children}</AlertDescription>
-  </Alert>
-))
-AlertDestructive.displayName = 'AlertDestructive'
-
-export { Alert, AlertDescription, AlertDestructive, AlertTitle }
+export { Alert, AlertDescription, AlertTitle }

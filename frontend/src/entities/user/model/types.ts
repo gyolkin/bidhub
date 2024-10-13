@@ -1,6 +1,4 @@
-import type { UUID } from 'crypto'
-
-export type UserId = UUID
+export type UserId = string
 
 export interface User {
   id: UserId

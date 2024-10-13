@@ -2,39 +2,50 @@ import { AddAuctionDialog } from '@/features/auction/add'
 import {
   AuctionCard,
   AuctionCardSkeleton,
-  AUCTIONS_PER_PAGE,
-  auctionsApi,
   mapShortAuction,
-  REFETCH_AUCTIONS_INTERVAL,
+  type ShortAuctionResponse,
 } from '@/entities/auction'
+import { TypographyH3 } from '@/shared/ui'
 
-const AuctionList = () => {
-  const { data: auctions, isLoading } =
-    auctionsApi.endpoints.listAuctions.useQuery(
-      {
-        page: 1,
-        per_page: AUCTIONS_PER_PAGE,
-      },
-      {
-        pollingInterval: REFETCH_AUCTIONS_INTERVAL,
-      }
-    )
+interface AuctionListProps {
+  auctions?: Array<ShortAuctionResponse>
+  showSkeleton: boolean
+  showError: boolean
+  loadedAuctions: number
+  showAddButton?: boolean
+}
 
+const AuctionList = ({
+  auctions,
+  showSkeleton,
+  showError,
+  loadedAuctions,
+  showAddButton,
+}: AuctionListProps) => {
   const renderAuctions = () => {
-    if (!auctions || isLoading) {
-      return Array.from({ length: 40 }).map((_, index) => (
+    if (showSkeleton) {
+      return Array.from({ length: loadedAuctions }).map((_, index) => (
         <AuctionCardSkeleton key={index} />
       ))
     } else {
-      return auctions.items.map((auction) => (
+      return auctions?.map((auction) => (
         <AuctionCard key={auction.id} auction={mapShortAuction(auction)} />
       ))
     }
   }
 
+  if (showError || auctions?.length === 0) {
+    return (
+      <div className="block text-center space-y-4">
+        <TypographyH3>Auctions not found</TypographyH3>
+        {showAddButton && <AddAuctionDialog type="button" />}
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <AddAuctionDialog type="card" />
+      {showAddButton && <AddAuctionDialog type="card" />}
       {renderAuctions()}
     </div>
   )

@@ -1,6 +1,9 @@
 export default {
   plugins: {
     tailwindcss: {},
-    autoprefixer: {},
+    autoprefixer: {
+      overrideBrowserslist: ['>1%'],
+      flexbox: true,
+    },
   },
 }

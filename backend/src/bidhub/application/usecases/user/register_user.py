@@ -39,7 +39,7 @@ class RegisterUser:
         await self.user_gateway.save_user(new_user)
         await self.uow.commit()
         await self._send_welcome_email(new_user.email)
-        return IdResponse[UserId](new_user.id)
+        return IdResponse(new_user.id)
 
     async def _send_welcome_email(self, email: str):
         message = SendWelcomeEmailRequest(receiver=email)

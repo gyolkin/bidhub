@@ -1,7 +1,7 @@
 import { baseApi, IdResponse } from '@/shared/api'
 import type { PaginatedResponse, PaginationFilter } from '@/shared/model'
 
-import type { AuctionId } from '../model'
+import { type AuctionId } from '../model'
 import type {
   CreateAuctionRequest,
   DetailedAuctionResponse,
@@ -24,19 +24,24 @@ const auctionsApi = baseApi.injectEndpoints({
           method: 'GET',
         }
       },
+      providesTags: ['AUCTIONS'],
     }),
-    getAuction: build.query<DetailedAuctionResponse, AuctionId>({
-      query: (auctionId) => ({
-        url: `${AUCTIONS_ENDPOINT}/${auctionId}`,
-        method: 'GET',
-      }),
-    }),
+    getAuction: build.query<DetailedAuctionResponse, { auction_id: AuctionId }>(
+      {
+        query: ({ auction_id }) => ({
+          url: `${AUCTIONS_ENDPOINT}/${auction_id}`,
+          method: 'GET',
+        }),
+        providesTags: ['AUCTIONS'],
+      }
+    ),
     createAuction: build.mutation<IdResponse<AuctionId>, CreateAuctionRequest>({
       query: (data) => ({
         url: AUCTIONS_ENDPOINT,
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['AUCTIONS'],
     }),
   }),
 })

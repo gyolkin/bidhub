@@ -76,4 +76,14 @@
         @apply bg-zinc-200 dark:bg-zinc-600;
         border-radius: 100vh;
     }
+
+    .title-clamp {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        /* autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
+    }
 }

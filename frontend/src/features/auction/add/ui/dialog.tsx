@@ -48,7 +48,7 @@ const AddAuctionDialog = ({ type }: AddButtonDialogProps) => {
         <DialogHeader>
           <DialogTitle>Add New Auction</DialogTitle>
           <DialogDescription>
-            We are happy you decided to add a new auction!
+            We are happy you have decided to add a new auction!
           </DialogDescription>
         </DialogHeader>
         <AddAuctionForm />
